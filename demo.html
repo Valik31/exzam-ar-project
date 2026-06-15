@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>VR Тіла обертання</title>
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    #ui-container {
+      position: absolute; top: 20px; left: 20px; background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px); padding: 20px; border-radius: 15px; z-index: 999;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15); width: 320px; border: 1px solid rgba(255,255,255,0.5);
+    }
+    h3 { margin-top: 0; color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+    .control-group { margin-bottom: 15px; }
+    label { display: block; font-weight: bold; margin-bottom: 5px; color: #34495e; font-size: 14px; }
+    input[type="number"], select {
+      width: 100%; padding: 8px; border: 1px solid #bdc3c7; border-radius: 6px; box-sizing: border-box;
+    }
+    input[type="range"] { width: 100%; margin-top: 5px; }
+    
+    .btn-row { display: flex; gap: 10px; margin-top: 15px; }
+    button { flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+    #play-btn { background: #2ecc71; color: white; }
+    #play-btn:hover { background: #27ae60; }
+    
+    #results { margin-top: 15px; background: #ecf0f1; padding: 15px; border-radius: 8px; border-left: 4px solid #3498db; }
+    .res-item { display: flex; justify-content: space-between; margin-bottom: 5px; font-weight: bold; color: #2c3e50;}
+  </style>
+</head>
+<body>
+
+  <div id="ui-container">
+    <h3>Параметри фігури</h3>
+    
+    <div class="control-group">
+      <label>Тип тіла обертання:</label>
+      <select id="shape-select">
+        <option value="cylinder">Циліндр (прямокутник)</option>
+        <option value="cone">Конус (трикутник)</option>
+        <option value="ellipsoid">Еліпсоїд / Куля (півеліпс)</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label>Радіус основи (r):</label>
+      <input type="number" id="radius-input" value="2" min="0.1" step="0.1">
+    </div>
+
+    <div class="control-group">
+      <label>Висота осі обертання (h):</label>
+      <input type="number" id="height-input" value="3" min="0.1" step="0.1">
+    </div>
+
+    <div class="control-group">
+      <label>Кут обертання: <span id="angle-display">0</span>°</label>
+      <input type="range" id="angle-slider" min="0" max="360" value="0">
+    </div>
+
+    <div class="btn-row">
+      <button id="play-btn">▶ Анімувати</button>
+    </div>
+
+    <div id="results">
+      <div class="res-item"><span>Об'єм (V):</span> <span id="val-volume">0</span></div>
+      <div class="res-item"><span>Площа (S):</span> <span id="val-area">0</span></div>
+    </div>
+  </div>
+
+  <a-scene background="color: #e0e5ec">
+    <a-entity camera look-controls orbit-controls position="0 1.5 6"></a-entity>
+    <a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>
+    <a-light type="directional" color="#ffffff" intensity="0.5" position="-1 2 1"></a-light>
+
+    <a-entity id="rotation-group" position="0 1.5 0">
+      <a-cylinder radius="0.02" height="6" color="#2c3e50" position="0 0 0"></a-cylinder>
+
+      <a-entity id="generator-wrapper">
+         <a-entity id="generator-shape" material="color: #e74c3c; side: double; transparent: true; opacity: 0.85"></a-entity>
+      </a-entity>
+
+      <a-entity id="solid-shape" material="color: #3498db; side: double; transparent: true; opacity: 0.7"></a-entity>
+    </a-entity>
+
+    <a-grid position="0 0 0" material="color: #bdc3c7"></a-grid>
+  </a-scene>
+
+  <script src="app.js"></script>
+</body>
+</html>
