@@ -46,8 +46,8 @@ function calculateMath(type, r, h) {
     }
   }
 
-  valVolume.innerText = volume.toFixed(2);
-  valArea.innerText = area.toFixed(2);
+  valVolume.innerText = volume.toFixed(2) + " од.куб.";
+  valArea.innerText = area.toFixed(2) + " од.кв.";
 }
 
 // 2. Оновлення геометрії на сцені
